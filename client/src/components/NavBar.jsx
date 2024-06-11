@@ -29,7 +29,7 @@ return (
             <Collapse isOpen={open} navbar>
             <Nav navbar>
             <NavItem>
-                  <NavLink tag={RRNavLink} to="/leaves">
+                  <NavLink tag={RRNavLink} to="/leave">
                     Leaves
                   </NavLink>
             </NavItem>
