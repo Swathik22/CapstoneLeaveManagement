@@ -1,0 +1,6 @@
+@CapstoneLeaveManagement_HostAddress = http://localhost:5045
+
+GET {{CapstoneLeaveManagement_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
