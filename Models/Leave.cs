@@ -16,8 +16,6 @@ public class Leave
 
     [Required]
     public DateTime EndDate { get; set; }
-
-    [Required]
     public int LeaveTypeId { get; set; }
     public LeaveType? LeaveType { get; set; }
     public int? StatusId { get; set; }

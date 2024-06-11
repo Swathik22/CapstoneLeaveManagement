@@ -1,17 +1,28 @@
-const _apiURL=`/api/leave`;
+const _apiURL="/api/Leave";
 
-export const createLeave=async(leaveObj)=>{
-    return await fetch(`${_apiURL}`,{
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
+// export const createLeave=async(leaveObj)=>{
+//     return await fetch(_apiURL,{
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//             },
+//         body: JSON.stringify(leaveObj)
+//     })
+// }
+
+export const createLeave = async (leaveObj) => {
+    return await fetch(_apiURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-        body: JSON.stringify(userProfile)
-    })
-}
+            body: JSON.stringify(leaveObj),
+        });
+};
+
 
 export const getAllLeaves=async()=>{
-    return await fetch(`${_apiURL}`).then((res)=>res.json());
+    return await fetch(_apiURL).then((res)=>res.json());
 }
 
 export const getLeaveById=async(id)=>{

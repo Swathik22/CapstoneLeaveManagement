@@ -24,6 +24,8 @@ public class LeaveController:ControllerBase
             return BadRequest("Invalid data.");
         }
 
+        leave.StatusId=1;
+
         _dbContext.Leaves.Add(leave);
         _dbContext.SaveChanges();
         return Created();
