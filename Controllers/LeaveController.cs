@@ -88,28 +88,54 @@ public class LeaveController:ControllerBase
     LeaveDTO leaveById=new LeaveDTO
     {
         Id=Leave.Id,
-                                                        EmployeeId=Leave.EmployeeId,
-                                                        StartDate=Leave.StartDate,
-                                                        EndDate=Leave.EndDate,
-                                                        LeaveTypeId=Leave.LeaveTypeId,
-                                                        StatusId=Leave.StatusId,
-                                                    Employee=new UserProfileDTO{
-                                                        Id=Leave.Employee.Id,
-                                                        UserName=Leave.Employee.UserName,
-                                                    },
-                                                    LeaveType=new LeaveTypeDTO{
-                                                        Id=Leave.LeaveType.Id,
-                                                        Type=Leave.LeaveType.Type,
-                                                        NumberOfDays=Leave.LeaveType.NumberOfDays,
-                                                        Description=Leave.LeaveType.Description
-                                                    },
-                                                    Status=new LeaveStatusDTO{
-                                                        Id=Leave.Status.Id,
-                                                        Status=Leave.Status.Status
-                                                    }
+        EmployeeId=Leave.EmployeeId,
+        StartDate=Leave.StartDate,
+        EndDate=Leave.EndDate,
+        LeaveTypeId=Leave.LeaveTypeId,
+        StatusId=Leave.StatusId
     };
 
     return Ok(leaveById);
+    }
+
+    [HttpGet("employee/{empId}")]
+    [Authorize]
+    public IActionResult GetAllLeavesByEmployeeId(int empId)
+    {
+        List<LeaveDTO> AllLeaves=_dbContext.Leaves
+                                .Include(lt=>lt.LeaveType)
+                                .Include(s=>s.Status)
+                                .Include(e=>e.Employee)
+                                .Where(l=>l.EmployeeId==empId)
+                                .Select(l=>new LeaveDTO{
+                                                        Id=l.Id,
+                                                        EmployeeId=l.EmployeeId,
+                                                        StartDate=l.StartDate,
+                                                        EndDate=l.EndDate,
+                                                        LeaveTypeId=l.LeaveTypeId,
+                                                        StatusId=l.StatusId,
+                                                    Employee=new UserProfileDTO{
+                                                        Id=l.Employee.Id,
+                                                        UserName=l.Employee.UserName,
+                                                    },
+                                                    LeaveType=new LeaveTypeDTO{
+                                                        Id=l.LeaveType.Id,
+                                                        Type=l.LeaveType.Type,
+                                                        NumberOfDays=l.LeaveType.NumberOfDays,
+                                                        Description=l.LeaveType.Description
+                                                    },
+                                                    Status=new LeaveStatusDTO{
+                                                        Id=l.Status.Id,
+                                                        Status=l.Status.Status
+                                                    }
+        }).ToList();
+
+    if(AllLeaves==null)
+    {
+        return NotFound("No Leaves applied.");
+    }
+
+    return Ok(AllLeaves);
     }
 
     [HttpPut("{id}")]
@@ -124,6 +150,8 @@ public class LeaveController:ControllerBase
 
         leaveToUpdate.StartDate=leave.StartDate;
         leaveToUpdate.EndDate=leave.EndDate;
+        leaveToUpdate.LeaveTypeId=leave.LeaveTypeId;
+        leaveToUpdate.StatusId=leave.StatusId;
 
         _dbContext.SaveChanges();
 

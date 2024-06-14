@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using CapstoneLeaveManagement.Data;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,15 @@ app.UseHttpsRedirection();
 // these two calls are required to add auth to the pipeline for a request
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(
+        Path.Combine(app.Environment.ContentRootPath, "Uploads")),
+        RequestPath = "/uploads"
+    });
 
 app.MapControllers();
 

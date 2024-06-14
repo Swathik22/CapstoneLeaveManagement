@@ -15,7 +15,26 @@ export default function Register({ setLoggedInUser }) {
   const [passwordMismatch, setPasswordMismatch] = useState();
   const [registrationFailure, setRegistrationFailure] = useState(false);
 
+  const [imgSrc, setImgSrc] = useState("");
+  const [image, setImage] = useState("");
+
   const navigate = useNavigate();
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+        let imageFile = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (x) => {
+            setImage(imageFile);
+            setImgSrc(x.target.result);
+        };
+        reader.readAsDataURL(imageFile);        
+      } 
+      else {
+          setImage("");
+          setImgSrc("");
+      }     
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,6 +49,7 @@ export default function Register({ setLoggedInUser }) {
         email,
         address,
         password,
+        photo:image||null
       };
       register(newUser).then((user) => {
         if (user) {
@@ -85,6 +105,14 @@ export default function Register({ setLoggedInUser }) {
           }}
         />
       </FormGroup>
+
+     <FormGroup>
+        <Label>Upload Header Image:</Label>
+        <img style={{height: 120, width: 100}} src={imgSrc} className="card-img-top"/>   
+        <Input className="upload-btn" type="file" name="headerImage" onChange={handleFileChange} required />
+      </FormGroup>
+
+
       <FormGroup>
         <Label>Address</Label>
         <Input

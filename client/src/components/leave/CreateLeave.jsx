@@ -6,6 +6,7 @@ import { createLeave } from "../../managers/leaveManager"
 import { Button } from "reactstrap";
 import { getAllLeaveTypes } from "../../managers/leaveTypeManager";
 import { getAllLeaveStatus } from "../../managers/leaveStatusManager";
+// import "./LeaveStyles.css";
 
 export const CreateLeave=({loggedInUser})=>{
     // const[leave,setLeave]=useState({})

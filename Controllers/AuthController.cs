@@ -8,6 +8,7 @@ using System.Text;
 using CapstoneLeaveManagement.Models;
 using CapstoneLeaveManagement.Models.DTOs;
 using CapstoneLeaveManagement.Data;
+using System.Text.RegularExpressions;
 
 namespace CapstoneLeaveManagement.Controllers;
 
@@ -110,6 +111,7 @@ public class AuthController : ControllerBase
                 Address = profile.Address,
                 IdentityUserId = identityUserId,
                 UserName = User.FindFirstValue(ClaimTypes.Name),
+                Photo=profile.Photo,
                 Email = User.FindFirstValue(ClaimTypes.Email),
                 Roles = roles
             };
@@ -120,7 +122,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegistrationDTO registration)
+    public async Task<IActionResult> Register(Registration registration)
     {
         var user = new IdentityUser
         {
@@ -128,9 +130,37 @@ public class AuthController : ControllerBase
             Email = registration.Email
         };
 
+// Decode the base64 image and save it
+            if (!string.IsNullOrEmpty(registration.photo))
+            {
+                var base64Data = Regex.Match(registration.photo, @"data:image/(?<type>.+?);base64,(?<data>.+)").Groups["data"].Value;
+                var imageType = Regex.Match(registration.photo, @"data:image/(?<type>.+?);base64,(?<data>.+)").Groups["type"].Value;
+
+                if (!string.IsNullOrEmpty(base64Data) && !string.IsNullOrEmpty(imageType))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(base64Data);
+                    string imageName = Guid.NewGuid()+"." + imageType;
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads",imageName);
+                    try
+                    {
+                        System.IO.File.WriteAllBytes(imagePath, imageBytes);
+                        registration.photo = imageName; 
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid image format");
+                }
+            }
+
         var password = Encoding
             .GetEncoding("iso-8859-1")
             .GetString(Convert.FromBase64String(registration.Password));
+      
 
         var result = await _userManager.CreateAsync(user, password);
         if (result.Succeeded)
@@ -140,6 +170,10 @@ public class AuthController : ControllerBase
                 FirstName = registration.FirstName,
                 LastName = registration.LastName,
                 Address = registration.Address,
+                UserName=registration.FirstName+registration.LastName,
+                Email=registration.Email,
+                HireDate=DateTime.Now,
+                Photo=registration.photo,
                 IdentityUserId = user.Id,
             });
             _dbContext.SaveChanges();
