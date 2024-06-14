@@ -13,22 +13,17 @@ public class UserProfile
     [MaxLength(255)]
     public string LastName { get; set; }
 
-    public string UserName{get{
-        return FirstName+LastName;
-    }}
+    public string UserName{get;set;}
     [Required]
     [MaxLength(255)]
     public string Email { get; set; }
     public long? PhoneNumber { get; set; }
     [Required]
-    [MaxLength(255)]
 
     public string Photo { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
-    [Required]
-    [MaxLength(255)]
-    public DateTime HireDate { get; set; }
+    public DateTime HireDate { get;set;}
     public string Address { get; set; }
 
     public string IdentityUserId { get; set; }

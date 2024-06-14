@@ -26,7 +26,26 @@ export const tryGetLoggedInUser = () => {
   });
 };
 
-export const register = (userProfile) => {
+export const register = async(userProfile) => {
+
+  // Convert image file to base64 string
+  const convertImageToBase64 = (imageFile) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(imageFile);
+    });
+};
+
+if (userProfile.photo) {
+    try {
+      userProfile.photo = await convertImageToBase64(userProfile.photo);
+    } catch (error) {
+        throw new Error("Failed to convert image to base64");
+    }
+}
+
   userProfile.password = btoa(userProfile.password);
   return fetch(_apiUrl + "/register", {
     credentials: "same-origin",

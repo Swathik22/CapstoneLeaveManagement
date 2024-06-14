@@ -5,6 +5,7 @@ import Register from "./auth/Register";
 import { Leave } from "./leave/Leave";
 import { CreateLeave } from "./leave/CreateLeave";
 import { UpdateLeave } from "./leave/UpdateLeave";
+import ViewProfile from "./Profile/ViewProfile";
 // import UserProfileList from "./userProfiles/UserProfileList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -24,15 +25,34 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="employees"
           element={
             <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
-               <h4>Start here userProfile</h4>
+               <h4>Employee Login View</h4>
             </AuthorizedRoute>
           }
         />
 
+        <Route path="/viewProfile">
+              <Route index element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <ViewProfile loggedInUser={loggedInUser}/>
+                </AuthorizedRoute>}
+              />                               
+        </Route>
+
         <Route path="/leave">
-              <Route index element={<Leave/>}/>
-              <Route path="/leave/createLeave" element={<CreateLeave loggedInUser={loggedInUser}/>}/>
-              <Route path="/leave/:id" element={<UpdateLeave />}/>                    
+              <Route index element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                <Leave loggedInUser={loggedInUser}/>
+                </AuthorizedRoute>}
+              />
+              <Route path="/leave/createLeave" element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                <CreateLeave loggedInUser={loggedInUser}/>
+                </AuthorizedRoute>}
+              />
+              <Route path="/leave/:id" element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                <UpdateLeave loggedInUser={loggedInUser}/>
+                </AuthorizedRoute>}/>                    
         </Route>
 
         <Route

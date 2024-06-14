@@ -33,6 +33,26 @@ public class LeaveStatusController:ControllerBase
     return Ok(AllLeaveStatus);
     }
 
+    [HttpGet("{id}")]
+    [Authorize]
+    public IActionResult GetLeaveStatusById(int id)
+    {
+        LeaveStatus Leavestatus=_dbContext.LeaveStatuses.SingleOrDefault(l=>l.Id==id);
+
+    if(Leavestatus==null)
+    {
+        return NotFound("LeaveStatus not found");
+    }
+
+    LeaveStatusDTO leaveStatusById=new LeaveStatusDTO
+    {
+        Id=Leavestatus.Id,
+        Status=Leavestatus.Status
+    };
+
+    return Ok(leaveStatusById);
+    }
+
     
 }
 
