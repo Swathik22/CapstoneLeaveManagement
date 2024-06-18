@@ -21,7 +21,7 @@ Clone down this repository. You will need node and npm installed globally on you
 #### Run App:
 >npm run dev  
 >Redirect to login page  
->http://localhost:8088/Login
+>http://localhost:5173/login
 ## Essential Structure
 Leave Management consists of several key features:
 #### Employee Login
