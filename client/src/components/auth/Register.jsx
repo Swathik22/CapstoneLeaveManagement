@@ -54,7 +54,7 @@ export default function Register({ setLoggedInUser }) {
       register(newUser).then((user) => {
         if (user) {
           setLoggedInUser(user);
-          navigate("/");
+          navigate("/viewProfile");
         } else {
           setRegistrationFailure(true);
         }

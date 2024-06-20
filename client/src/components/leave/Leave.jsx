@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Table } from "reactstrap";
+import { Badge, Button, Table } from "reactstrap";
 import {
   deleteLeave,
   getLeavesByEmployeeId,
@@ -59,9 +59,10 @@ export const Leave = ({ loggedInUser }) => {
 
   return (
     <>
-      <Link to="createLeave">Apply Leave</Link>
+      <div style={{ float: "left", marginLeft : "85px", marginTop: "15px", fontWeight:"bold", fontSize:"20px" }}>
+        <Link to="createLeave">Apply Leave</Link>
+      </div>
       <div className="userprofile-container">
-        <h2>Leaves</h2>
         <Table striped>
           <thead>
             <tr>
@@ -70,11 +71,22 @@ export const Leave = ({ loggedInUser }) => {
               <th>LeaveType</th>
               <th>Status</th>
               <th></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
-            {allLeavesByEmployee?.map((l) => (
+            {allLeavesByEmployee?.map((l) =>{
+              let statusColor = 'secondary';
+              switch (l.statusId) {
+                case 1:
+                  statusColor = 'warning';
+                  break;
+                case 2:
+                  statusColor = 'success';
+                  break;
+                default:
+                  statusColor = 'danger';
+              }
+             return (
               <tr key={l.id}>
                 <td>
                   {new Date(l.startDate).toLocaleDateString("en-US", {
@@ -91,19 +103,30 @@ export const Leave = ({ loggedInUser }) => {
                   })}
                 </td>
                 <td>{getLeaveType(l.leaveTypeId)}</td>
-                <td>{getLeaveStatus(l.statusId)}</td>
+                <td><Badge color={statusColor}>{getLeaveStatus(l.statusId)}</Badge></td>
                 <td>
-                  <Button color="success" name={l.id} onClick={handleEdit}>
-                    Edit
-                  </Button>
-                </td>
-                <td>
-                  <Button color="danger" name={l.id} onClick={handleDelete}>
-                    Delete
-                  </Button>
+                  {
+                    getLeaveStatus(l.statusId) === "Approved" ||getLeaveStatus(l.statusId) === "Rejected"
+                    ?  <></>                  
+                  :
+                  <div>
+                      <Button color="success" name={l.id} onClick={handleEdit}>
+                        Edit
+                      </Button>
+
+                      <Button color="danger" name={l.id} onClick={handleDelete}>
+                        Delete
+                      </Button>
+                  </div>
+                  }
+
                 </td>
               </tr>
-            ))}
+            )
+            
+          }
+            
+            )}
           </tbody>
         </Table>
       </div>

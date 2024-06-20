@@ -12,6 +12,7 @@ public class CapstoneLeaveManagementDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Leave> Leaves { get; set; }
     public DbSet<LeaveType> LeaveTypes { get; set; }
     public DbSet<LeaveStatus> LeaveStatuses { get; set; }
+    public DbSet<Holiday> Holidays { get; set; }
 
     public CapstoneLeaveManagementDbContext(DbContextOptions<CapstoneLeaveManagementDbContext> context, IConfiguration config) : base(context)
     {
@@ -212,6 +213,20 @@ public class CapstoneLeaveManagementDbContext : IdentityDbContext<IdentityUser>
             }
         }
         );
+
+        modelBuilder.Entity<Holiday>().HasData(new Holiday[]{
+                new Holiday { Id = 1, Date = new DateTime(2024, 1, 1), Name = "New Year's Day" },
+                new Holiday { Id = 2, Date = new DateTime(2024, 1, 15), Name = "Martin Luther King Jr. Day" },
+                new Holiday { Id = 3, Date = new DateTime(2024, 2, 19), Name = "Presidents' Day" },
+                new Holiday { Id = 4, Date = new DateTime(2024, 5, 27), Name = "Memorial Day" },
+                new Holiday { Id = 5, Date = new DateTime(2024, 6, 19), Name = "Juneteenth National Independence Day" },
+                new Holiday { Id = 6, Date = new DateTime(2024, 7, 4), Name = "Independence Day" },
+                new Holiday { Id = 7, Date = new DateTime(2024, 9, 2), Name = "Labor Day" },
+                new Holiday { Id = 8, Date = new DateTime(2024, 10, 14), Name = "Columbus Day" },
+                new Holiday { Id = 9, Date = new DateTime(2024, 11, 11), Name = "Veterans Day" },
+                new Holiday { Id = 10, Date = new DateTime(2024, 11, 28), Name = "Thanksgiving Day" },
+                new Holiday { Id = 11, Date = new DateTime(2024, 12, 25), Name = "Christmas Day" }
+        });
 
         // Seeding data for Leave
         modelBuilder.Entity<Leave>().HasData(new Leave[]{

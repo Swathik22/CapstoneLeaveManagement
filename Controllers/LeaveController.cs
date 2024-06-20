@@ -18,17 +18,31 @@ public class LeaveController:ControllerBase
 
     [HttpPost]
     public IActionResult CreateLeave(Leave leave)
-    {
+    {        
+        var errors = new List<KeyValuePair<int, string>>();
+        int i=0;
         if(leave==null)
         {
-            return BadRequest("Invalid data.");
+            errors.Add(new KeyValuePair<int, string>(i++, "Invalid data."));            
+        }
+
+        if(leave?.EndDate<leave?.StartDate)
+        {            
+             errors.Add(new KeyValuePair<int, string>(i++, "The end date must be after the start date."));
+        }
+
+        leave.StatusId=1;
+
+        if (errors.Any())
+        {
+            return BadRequest(new { Errors = errors.ToArray() });
         }
 
         leave.StatusId=1;
 
         _dbContext.Leaves.Add(leave);
         _dbContext.SaveChanges();
-        return Created();
+        return Ok(leave);
     }
 
     [HttpGet]
@@ -169,6 +183,77 @@ public class LeaveController:ControllerBase
         }
 
         _dbContext.Leaves.Remove(leaveToDelete);
+        _dbContext.SaveChanges();
+
+        return Ok();
+    }
+
+    [HttpGet("PendingLeaves")]
+    [Authorize]
+    public IActionResult getAllPendingLeaves()
+    {
+        int PendingId = _dbContext.LeaveStatuses.SingleOrDefault(s => s.Status == "Pending").Id;
+        List<Leave> PendingLeaves=_dbContext.Leaves
+                                            .Include(e=>e.Employee)
+                                            .Include(t=>t.LeaveType)
+                                            .Include(s=>s.Status)
+                                            .Where(l=>l.StatusId==PendingId).ToList();
+
+        List<LeaveDTO> PendingLeavesList=PendingLeaves.
+                                            Select(l=>new LeaveDTO{
+                                                Id=l.Id,
+                                                StartDate=l.StartDate,
+                                                EndDate=l.EndDate,
+                                                EmployeeId=l.EmployeeId,
+                                                StatusId=l.StatusId,
+                                                LeaveTypeId=l.LeaveTypeId,
+                                                Employee=l.Employee!=null?new UserProfileDTO{
+                                                        Id=l.Employee.Id,
+                                                        UserName=l.Employee.UserName,
+                                                    }:null,
+                                                    LeaveType=l.LeaveType!=null?new LeaveTypeDTO{
+                                                        Id=l.LeaveType.Id,
+                                                        Type=l.LeaveType.Type,
+                                                        NumberOfDays=l.LeaveType.NumberOfDays,
+                                                        Description=l.LeaveType.Description
+                                                    }:null,
+                                                    Status=l.Status!=null?new LeaveStatusDTO{
+                                                        Id=l.Status.Id,
+                                                        Status=l.Status.Status
+                                                    }:null
+                                                }).ToList();
+
+        return Ok(PendingLeavesList);
+
+    }
+
+    [HttpPost("{id}/Approve")]
+    public IActionResult ApproveLeaveRequest(int id)
+    {
+        Leave ApproveALeave=_dbContext.Leaves.SingleOrDefault(l=>l.Id==id);
+        if(ApproveALeave==null)
+        {
+            return NotFound("Leave Request Not found");
+        }
+
+        ApproveALeave.StatusId=_dbContext.LeaveStatuses.SingleOrDefault(s=>s.Status=="Approved").Id;
+
+        _dbContext.SaveChanges();
+
+        return Ok();
+    }
+
+    [HttpPost("{id}/Reject")]
+    public IActionResult RejectLeaveRequest(int id)
+    {
+        Leave RejectALeave=_dbContext.Leaves.SingleOrDefault(l=>l.Id==id);
+        if(RejectALeave==null)
+        {
+            return NotFound("Leave Request Not found");
+        }
+
+        RejectALeave.StatusId=_dbContext.LeaveStatuses.SingleOrDefault(s=>s.Status=="Rejected").Id;
+
         _dbContext.SaveChanges();
 
         return Ok();

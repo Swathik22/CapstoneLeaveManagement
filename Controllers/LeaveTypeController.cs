@@ -35,6 +35,20 @@ public class LeaveTypeController:ControllerBase
     return Ok(AllLeaveTypes);
     }
 
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult CreateLeaveType(LeaveType leaveType)
+    {
+        if(leaveType==null)
+        {
+            return BadRequest("Invalid Data");
+        }
+
+        _dbContext.LeaveTypes.Add(leaveType);
+        _dbContext.SaveChanges();
+
+        return Created($"/api/reaction/{leaveType.Id}",leaveType);
+    }
     
 }
 
