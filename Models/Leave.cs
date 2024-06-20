@@ -11,10 +11,10 @@ public class Leave
     public int EmployeeId { get; set; }
     public UserProfile? Employee { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Start date is required.")]
     public DateTime StartDate { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "End date is required.")]
     public DateTime EndDate { get; set; }
     public int LeaveTypeId { get; set; }
     public LeaveType? LeaveType { get; set; }

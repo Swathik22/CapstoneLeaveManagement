@@ -84,7 +84,7 @@ namespace CapstoneLeaveManagement.Migrations
                             DateOfBirth = new DateTime(1984, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admina@strator.comx",
                             FirstName = "Admina",
-                            HireDate = new DateTime(2024, 6, 13, 11, 15, 19, 48, DateTimeKind.Local).AddTicks(5936),
+                            HireDate = new DateTime(2024, 6, 19, 18, 22, 17, 486, DateTimeKind.Local).AddTicks(4437),
                             IdentityUserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             LastName = "Strator",
                             PhoneNumber = 1234567890L,
@@ -98,7 +98,7 @@ namespace CapstoneLeaveManagement.Migrations
                             DateOfBirth = new DateTime(1985, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "john@doe.comx",
                             FirstName = "John",
-                            HireDate = new DateTime(2024, 6, 13, 11, 15, 19, 48, DateTimeKind.Local).AddTicks(6010),
+                            HireDate = new DateTime(2024, 6, 19, 18, 22, 17, 486, DateTimeKind.Local).AddTicks(4510),
                             IdentityUserId = "d8d76512-74f1-43bb-b1fd-87d3a8aa36df",
                             LastName = "Doe",
                             PhoneNumber = 1234567890L,
@@ -112,7 +112,7 @@ namespace CapstoneLeaveManagement.Migrations
                             DateOfBirth = new DateTime(1990, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jane@smith.comx",
                             FirstName = "Jane",
-                            HireDate = new DateTime(2024, 6, 13, 11, 15, 19, 48, DateTimeKind.Local).AddTicks(6016),
+                            HireDate = new DateTime(2024, 6, 19, 18, 22, 17, 486, DateTimeKind.Local).AddTicks(4514),
                             IdentityUserId = "a7d21fac-3b21-454a-a747-075f072d0cf3",
                             LastName = "Smith",
                             PhoneNumber = 2345678901L,
@@ -126,7 +126,7 @@ namespace CapstoneLeaveManagement.Migrations
                             DateOfBirth = new DateTime(1980, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Alice@johnson.comx",
                             FirstName = "Alice",
-                            HireDate = new DateTime(2024, 6, 13, 11, 15, 19, 48, DateTimeKind.Local).AddTicks(6021),
+                            HireDate = new DateTime(2024, 6, 19, 18, 22, 17, 486, DateTimeKind.Local).AddTicks(4517),
                             IdentityUserId = "c806cfae-bda9-47c5-8473-dd52fd056a9b",
                             LastName = "Johnson",
                             PhoneNumber = 3456789012L,
@@ -140,7 +140,7 @@ namespace CapstoneLeaveManagement.Migrations
                             DateOfBirth = new DateTime(1995, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "eve@davis.comx",
                             FirstName = "Eve",
-                            HireDate = new DateTime(2024, 6, 13, 11, 15, 19, 48, DateTimeKind.Local).AddTicks(6025),
+                            HireDate = new DateTime(2024, 6, 19, 18, 22, 17, 486, DateTimeKind.Local).AddTicks(4520),
                             IdentityUserId = "d224a03d-bf0c-4a05-b728-e3521e45d74d",
                             LastName = "Davis",
                             PhoneNumber = 4567890123L,
@@ -154,12 +154,100 @@ namespace CapstoneLeaveManagement.Migrations
                             DateOfBirth = new DateTime(1987, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bob@wilson.comx",
                             FirstName = "Bob",
-                            HireDate = new DateTime(2024, 6, 13, 11, 15, 19, 48, DateTimeKind.Local).AddTicks(6038),
+                            HireDate = new DateTime(2024, 6, 19, 18, 22, 17, 486, DateTimeKind.Local).AddTicks(4532),
                             IdentityUserId = "9ce89d88-75da-4a80-9b0d-3fe58582b8e2",
                             LastName = "Wilson",
                             PhoneNumber = 5678901234L,
                             Photo = "bob_wilson_photo.png",
                             UserName = "BodWilson"
+                        });
+                });
+
+            modelBuilder.Entity("Holiday", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Holidays");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "New Year's Day"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Martin Luther King Jr. Day"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Presidents' Day"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Date = new DateTime(2024, 5, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Memorial Day"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Date = new DateTime(2024, 6, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Juneteenth National Independence Day"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Date = new DateTime(2024, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Independence Day"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Date = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Labor Day"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Date = new DateTime(2024, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Columbus Day"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Date = new DateTime(2024, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Veterans Day"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Date = new DateTime(2024, 11, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Thanksgiving Day"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Date = new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Christmas Day"
                         });
                 });
 
@@ -437,13 +525,13 @@ namespace CapstoneLeaveManagement.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "99098a0b-bff8-4afd-8e82-e73c91ce9c51",
+                            ConcurrencyStamp = "0d248a23-dd24-489e-80ed-be61d48142e9",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEO3nfcAqC1261MWVUb02FzXge638fWPpSVsbz3KRYGqeR6gAXSheKR7pbnk4kJ4tlQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG8+UHPP7gllARE2cJ4zrxnsLYXy2dMn6vqTygO6Ady1x8Agely1a7xrhjLwCasqgw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8ba34311-efc4-4118-88d5-5356b769101c",
+                            SecurityStamp = "f1fa9638-b10c-4c08-a85e-7c318f91f159",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         },
@@ -451,13 +539,13 @@ namespace CapstoneLeaveManagement.Migrations
                         {
                             Id = "d8d76512-74f1-43bb-b1fd-87d3a8aa36df",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "91a75152-a101-4b41-a39d-2336f664ce87",
+                            ConcurrencyStamp = "acdf3d96-6f43-463f-8f77-03e1e95304ce",
                             Email = "john@doe.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEIl7XFH4LIf+muKQfNQ0oIyyCY/sHO9FVmZdDgH1jWnRNMKuxq9ihSYbbaLIiZUVeA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENQM4WrJq0AFQ4M81x1ZRC0PEV/bGbRQA2x14ubjOc9zBRrHDQlZn2yUorUIMWQCWA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6b06a734-8b60-4720-bf57-c2c53f149d41",
+                            SecurityStamp = "29113fea-7ff3-497b-a580-1b97fd628ae5",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -465,13 +553,13 @@ namespace CapstoneLeaveManagement.Migrations
                         {
                             Id = "a7d21fac-3b21-454a-a747-075f072d0cf3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d40c86b0-24d2-4af7-97a0-76182f27e19c",
+                            ConcurrencyStamp = "56a3f20c-1e8f-4ef0-a8e5-4b8a61e1bb06",
                             Email = "jane@smith.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEPjkXA76+KVg/sl6l9wDyaI8Y0vBD862NMQVAB1pepvvBoK1Uhzm5c3hlH2ocwLDKg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHZ8Shdq66p+dxHBnqHV10pPiYAYa4VBDe2lZF0c6uh0Oloy2RS45fhCZ7Q+aCBFRQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "04a0c541-c118-4827-a4a2-e9a8ec060ab5",
+                            SecurityStamp = "302d098f-a17a-48a4-9c84-c891b6180c99",
                             TwoFactorEnabled = false,
                             UserName = "JaneSmith"
                         },
@@ -479,13 +567,13 @@ namespace CapstoneLeaveManagement.Migrations
                         {
                             Id = "c806cfae-bda9-47c5-8473-dd52fd056a9b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "341b94e3-86d1-4ee1-81aa-c6c290fe9565",
+                            ConcurrencyStamp = "e203c6cf-77d7-43f5-a907-73b2b442e3ee",
                             Email = "alice@johnson.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEKLhuXWikAR8AW6GIEH+0twH2V8n2R2IGm4SugBe2MQlIgMcEC4L+m1JOwSDVIUSog==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDCuNzzsa3rO+pAXoP+l6x2sVHCOplthdCHap8iXHaWlRMXxTllfr75d3y0jr3qsDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1d0fc6dc-58d4-45cd-9cd0-856df282dd18",
+                            SecurityStamp = "8b2d6a80-2b16-4ba1-8752-b063b5f98955",
                             TwoFactorEnabled = false,
                             UserName = "AliceJohnson"
                         },
@@ -493,13 +581,13 @@ namespace CapstoneLeaveManagement.Migrations
                         {
                             Id = "9ce89d88-75da-4a80-9b0d-3fe58582b8e2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0241c64e-3dad-48cf-9e52-9e31b0969fe9",
+                            ConcurrencyStamp = "212bfbb2-49fb-4e0d-b929-e4d9d29e434b",
                             Email = "bob@williams.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEJeI9m/OobgmFDq5k34zi0hIcKlKZ73KM+/IXCfJqrLSLjWTbiRjkI09LTaE/tPmPg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAkVv5kUq+BTjbd8p4cIpJ/OEHIbzBqdd1LUm4KrQjjyTxnXVooMIezD3ca3L11Jag==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f5628880-c02b-4920-9a41-855f287c9fd1",
+                            SecurityStamp = "e38d9182-db5b-43ad-ad5c-8e513af7ae03",
                             TwoFactorEnabled = false,
                             UserName = "BobWilliams"
                         },
@@ -507,13 +595,13 @@ namespace CapstoneLeaveManagement.Migrations
                         {
                             Id = "d224a03d-bf0c-4a05-b728-e3521e45d74d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "44469eee-3c30-4358-8ac5-be0c26c70ad7",
+                            ConcurrencyStamp = "ebc587bf-c044-43ff-ac0b-ca27f830fda3",
                             Email = "Eve@Davis.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEK/Fvbb27L/hQ1dd2YBQFj+AuQz3lnyHNmwa3vBDmr48Ojyr/tuQi7Jnretts6QiQg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEh4FCnW0NN9bjH0friDzITqNP3JvkYgwzeeGj0Sxx1P4K6YBCSYlUH/iz+dmwJiHA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e7afe6ae-12fa-49bf-9ae8-5fc5292465ad",
+                            SecurityStamp = "ea2b0d06-71d3-4f57-b7ce-e8b67db1b637",
                             TwoFactorEnabled = false,
                             UserName = "EveDavis"
                         });

@@ -6,6 +6,11 @@ import { Leave } from "./leave/Leave";
 import { CreateLeave } from "./leave/CreateLeave";
 import { UpdateLeave } from "./leave/UpdateLeave";
 import ViewProfile from "./Profile/ViewProfile";
+import { ApprovePendingLeaves } from "./leave/ApprovePendingLeaves";
+import {NewLeaveType} from "./leaveType/NewLeaveType";
+import { Home } from "./Home";
+import { Holiday } from "./holiday/Holiday";
+import { ViewLeaveType } from "./leaveType/ViewLeaveType";
 // import UserProfileList from "./userProfiles/UserProfileList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -15,20 +20,29 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         <Route
           index
           element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
-              <h4>Start here</h4>
+            <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+             <Home/>
             </AuthorizedRoute>
           }
         />   
-     
+
         <Route
-          path="employees"
+          path="/ApprovePendingLeaves"
           element={
             <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
-               <h4>Employee Login View</h4>
+               <ApprovePendingLeaves/>
             </AuthorizedRoute>
           }
         />
+         
+        {/* <Route
+          path="/employees"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+               <h4>Employee Login View</h4>
+            </AuthorizedRoute>
+          }
+        /> */}
 
         <Route path="/viewProfile">
               <Route index element={
@@ -37,6 +51,27 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
                 </AuthorizedRoute>}
               />                               
         </Route>
+        <Route path="/leaveType">
+            <Route index element={
+                <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+                <ViewLeaveType />
+              </AuthorizedRoute>}
+              />
+              <Route path="/leaveType/createLeaveType" element={
+                <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+                <NewLeaveType/>
+                </AuthorizedRoute>}
+              />
+        </Route>
+        
+
+          <Route path="/holiday">
+              <Route index element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                <Holiday/>
+                </AuthorizedRoute>}
+              />
+          </Route>
 
         <Route path="/leave">
               <Route index element={

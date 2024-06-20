@@ -17,7 +17,15 @@ export const createLeave = async (leaveObj) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(leaveObj),
-        });
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else if (res.status === 400) {
+              return res.json();
+            } else {
+              return Promise.resolve({ errors: ["Unknown registration error"] });
+            }
+          });
 };
 
 
@@ -52,4 +60,16 @@ export const deleteLeave=async(id)=>{
     return await fetch(`${_apiURL}/${id}`,{
         method: "DELETE"
     })
+}
+
+export const getAllPendingLeaves=async()=>{
+    return await fetch(`${_apiURL}/PendingLeaves`).then((res)=>res.json());
+}
+
+export const approveLeaveRequest=async(id)=>{
+    return await fetch(`${_apiURL}/${id}/Approve`,{method:"POST"});
+}
+
+export const rejectLeaveRequest=async(id)=>{
+    return await fetch(`${_apiURL}/${id}/Reject`,{method:"POST"});
 }

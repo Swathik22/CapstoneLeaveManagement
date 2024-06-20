@@ -20,9 +20,12 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
   return (
     <div>
       <Navbar color="light" light fixed="true" expand="lg">
-        <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
-          Leave Management
-        </NavbarBrand>
+        {loggedInUser?.roles?.includes("Admin") ? (<NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
+        🗓 Leave Management
+        </NavbarBrand>) :
+        <NavbarBrand className="mr-auto" tag={RRNavLink} to="/viewProfile">
+        🗓 Leave Management
+        </NavbarBrand> }
         {loggedInUser ? (
           <>
             <NavbarToggler onClick={toggleNavbar} />
@@ -37,6 +40,19 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/leave">
                     Leaves
+                  </NavLink>
+                </NavItem>
+
+                {loggedInUser.roles.includes("Admin") && (<NavItem>
+                  <NavLink tag={RRNavLink} to="/leaveType">
+                    LeaveType
+                  </NavLink>
+                </NavItem>)}
+                
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/holiday">
+                    Holidays
                   </NavLink>
                 </NavItem>
               </Nav>

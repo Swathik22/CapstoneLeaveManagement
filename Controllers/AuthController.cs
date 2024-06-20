@@ -110,6 +110,7 @@ public class AuthController : ControllerBase
                 LastName = profile.LastName,
                 Address = profile.Address,
                 IdentityUserId = identityUserId,
+                hireDate=profile.HireDate,
                 UserName = User.FindFirstValue(ClaimTypes.Name),
                 Photo=profile.Photo,
                 Email = User.FindFirstValue(ClaimTypes.Email),

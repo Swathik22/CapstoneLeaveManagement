@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { getAllLeaveTypes } from "../../managers/leaveTypeManager";
 import { Button } from "reactstrap";
 import { getLeaveStatusById } from "../../managers/leaveStatusManager";
+import "./LeaveStyles.css";
 
 export const UpdateLeave=({loggedInUser})=>{
     const[leave,setLeave]=useState({})

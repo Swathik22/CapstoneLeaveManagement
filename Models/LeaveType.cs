@@ -15,5 +15,5 @@ public class LeaveType
     [MaxLength(255)]
     public string Description { get; set; }
 
-    public List<Leave> Leaves { get; set; }
+    public List<Leave>? Leaves { get; set; }
 }

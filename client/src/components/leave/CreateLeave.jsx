@@ -5,8 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { createLeave } from "../../managers/leaveManager"
 import { Button } from "reactstrap";
 import { getAllLeaveTypes } from "../../managers/leaveTypeManager";
-import { getAllLeaveStatus } from "../../managers/leaveStatusManager";
-// import "./LeaveStyles.css";
+
 
 export const CreateLeave=({loggedInUser})=>{
     // const[leave,setLeave]=useState({})
@@ -14,8 +13,9 @@ export const CreateLeave=({loggedInUser})=>{
     const[endDate,setEndDate]=useState(null)
     const[allLeaveTypes,setAllLeaveTypes]=useState([])
     const[leaveType,setLeaveType]=useState("")
-    // const[allLeaveStatus,setAllLeaveStatus]=useState([])
-    // const[leaveStatus,setLeaveStatus]=useState("")
+    const [errors, setErrors] = useState([]);
+    const [isStartDateValid, setIsStartDateValid] = useState(true);
+
 
     const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ export const CreateLeave=({loggedInUser})=>{
 
     const handleSubmit=(e)=>{
         e.preventDefault()
+        
         const leave={
             employeeId: loggedInUser.id,
             startDate:startDate,
@@ -38,28 +39,35 @@ export const CreateLeave=({loggedInUser})=>{
             leaveTypeId:leaveType
         }
        
-        createLeave(leave).then(()=>{
-            navigate(`/leave`)
-        })
+        createLeave(leave).then((res) => {
+            if (res.errors) {
+                setErrors(res.errors);
+            } else {
+                navigate("/leave");
+            }
+            })
     }
 
 
     return (
         <>
-            <h1 className="page-heading">Apply Leave</h1>
+            <h5 className="page-heading">Apply Leave</h5>
             <form onSubmit={handleSubmit} className="form-new-post">
                 <div className="new-post-title">
                     <label>Start Date:</label>
                     <DatePicker
+                    required={true}
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
-                        dateFormat="yyyy-MM-dd"
+                        dateFormat="yyyy-MM-dd"                        
                         className="form-control"
+
                     />
                 </div>
                 <div>
                     <label>End Date:</label>
                     <DatePicker
+                    required={true}
                         selected={endDate}
                         onChange={(date) => setEndDate(date)}
                         dateFormat="yyyy-MM-dd"
@@ -70,9 +78,9 @@ export const CreateLeave=({loggedInUser})=>{
                     <label>LeaveType:</label>
                     <select
                         name="leaveType"
+                        required={true}
                         value={leaveType}
                         onChange={(e)=>setLeaveType(e.target.value)}
-                        required
                     >
                         <option value="0" >Select LeaveType</option>
                         {allLeaveTypes.map(leaveType => (
@@ -82,24 +90,20 @@ export const CreateLeave=({loggedInUser})=>{
                         ))}
                     </select>
                 </div>
-                {/* <div className="new-post-category">
-                    <label>LeaveStatus:</label>
-                    <select
-                        name="leaveStatus"
-                        value={leaveStatus}
-                        onChange={(e)=>setLeaveStatus(e.target.value)}
-                        required
-                    >
-                        <option value="0">Select LeaveStatus</option>
-                        {allLeaveStatus.map(leaveStatus => (
-                            <option key={leaveStatus.id} value={leaveStatus.id}>
-                                {leaveStatus.status}
-                            </option>
-                        ))}
-                    </select>
-                </div> */}
-                
-                
+                <div style={{ color: "red" }}>
+                    {/* {Array.isArray(errors)&&Object.keys(errors).map((key) => (
+                        <p key={key}>
+                        {key}: {errors[key]}
+                        </p>
+                    ))} */}
+                    {
+                        Array.isArray(errors)&&errors.map((e,i)=>{
+                           return( <p key={i}>
+                                {e.value}
+                            </p>)
+                        })
+                    }
+                </div>
                 <Button type="submit">Apply Leave</Button>
             </form>
         </>

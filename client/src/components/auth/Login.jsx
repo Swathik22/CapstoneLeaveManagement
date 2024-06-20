@@ -15,8 +15,16 @@ export default function Login({ setLoggedInUser }) {
       if (!user) {
         setFailedLogin(true);
       } else {
-        setLoggedInUser(user);
-        navigate("/");
+        if(user.roles[0]==="Admin")
+        {
+          setLoggedInUser(user);
+          navigate("/");
+        }
+        else{
+          setLoggedInUser(user);
+          navigate("/viewProfile");
+        }
+       
       }
     });
   };
